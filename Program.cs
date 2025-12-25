@@ -16,10 +16,15 @@ app.Run(async(HttpContext context) =>
     //However, completely removing the Server header is not directly supported in ASP.NET Core.
     //Setting it to a custom value is a common practice to obscure server details.
     //This will not going to change the existing behavior of the Server header.
-    
+
+    //How to parse HTML content in the response body
+    context.Response.ContentType = "text/html; charset=utf-8";
+    //or context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
+    // Setting the Content-Type header to indicate that the response body contains HTML content.
+
     context.Response.StatusCode = 200;
-    await context.Response.WriteAsync("Hello! ");  //WriteAsync method Writes the given text to the response body. UTF-8 encoding will be used.
-    await context.Response.WriteAsync("I am learning about HTTP Status Codes!");
+    await context.Response.WriteAsync("<h1>Hello!</h1></br> ");  //WriteAsync method Writes the given text to the response body. UTF-8 encoding will be used.
+    await context.Response.WriteAsync("<h2>I am learning about HTTP Status Codes! </h2>");
 
 
 });

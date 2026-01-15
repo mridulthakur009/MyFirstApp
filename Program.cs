@@ -8,7 +8,8 @@ var app = builder.Build();
 //     //Note: Headers must be added before writing to the response body. 
 //     //Theres should be no space between the while naming key.
 
-//     //Removing the Server header from the response 
+//     //Server
+//     //Renaming the Server header from the response 
 //     context.Response.Headers["Server"] = "MyCustomServer/1.0";
 //     // Note: The Server header is added by default by ASP.NET Core.
 //     //By setting it to a custom value, we effectively override the default behavior.
@@ -17,6 +18,7 @@ var app = builder.Build();
 //     //Setting it to a custom value is a common practice to obscure server details.
 //     //This will not going to change the existing behavior of the Server header.
 
+//     //ContentType
 //     //How to parse HTML content in the response body
 //     context.Response.ContentType = "text/html; charset=utf-8";
 //     //or context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
@@ -39,9 +41,29 @@ app.Run(async (HttpContext context) =>
     // await context.Response.WriteAsync($"Request Method: {method}\n");
 
     //HTTP Status Codes (Response.StatusCode)
-    context.Response.StatusCode = 404; // Not Found
-    await context.Response.WriteAsync($"Response Status Code: {context.Response.StatusCode}\n");
+    // context.Response.StatusCode = 404; // Not Found
+    // await context.Response.WriteAsync($"Response Status Code: {context.Response.StatusCode}\n");
 
+    string path = context.Request.Path;
+    string method = context.Request.Method;
+
+    context.Response.ContentType = "text/html";
+    if(path == "/")
+    {
+        await context.Response.WriteAsync("<h1>Welcome to the Home Page!</h1>\n");
+        await context.Response.WriteAsync($"<h2>HTTP Method: {method}</h2>\n");
+
+    }
+    else if(path == "/about")
+    {
+        await context.Response.WriteAsync("<h1>About Us</h1>\n");
+    }
+    else
+    {
+        context.Response.StatusCode = 404; // Not Found
+        await context.Response.WriteAsync("<h1>404 - Page Not Found</h1>\n");
+    }
+    await context.Response.WriteAsync($"<h1>Request Path: {path}</h1>\n");
 });
 
 app.Run();

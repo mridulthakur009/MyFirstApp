@@ -64,6 +64,15 @@ app.Run(async (HttpContext context) =>
         await context.Response.WriteAsync("<h1>404 - Page Not Found</h1>\n");
     }
     await context.Response.WriteAsync($"<h1>Request Path: {path}</h1>\n");
+
+    if(context.Request.Method == "GET")
+    {
+        if(context.Request.Query.ContainsKey("name"))
+        {
+            string name = context.Request.Query["name"];
+            await context.Response.WriteAsync($"<h2>Hello, My name is {name}!</h2>\n");
+        }
+    }
 });
 
 app.Run();

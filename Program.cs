@@ -107,7 +107,9 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
 });
 
 //Middleware 2
-app.UseMiddleware<MycustomMiddleware>(); //Custom middleware invoked here
+// app.UseMiddleware<MycustomMiddleware>(); //Custom middleware invoked here
+
+app.UseMyCustomMiddlewareExtension();
 
 //Middleware 3
 app.Run(async (HttpContext context) =>
@@ -116,3 +118,5 @@ app.Run(async (HttpContext context) =>
 });
 
 app.Run();
+
+
